@@ -29,6 +29,35 @@
   .seg-btn{flex:1 1 100%}
 }
 
+
+/* --- Orçamento - responsividade completa --- */
+@media (max-width: 960px){
+  .orc-layout{grid-template-columns:1fr !important}
+  .orc-painel{order:1}
+  .paper{order:2}
+}
+@media (max-width: 600px){
+  .orc-painel{padding:14px}
+  .orc-grade.duas{grid-template-columns:1fr;gap:10px}
+  .paper{padding:16px 12px;font-size:13px;border-radius:0;margin:0 -12px;border-left:0;border-right:0}
+  .paper-timbre{flex-direction:column;align-items:flex-start;gap:10px}
+  .paper-doc{text-align:left}
+  .paper-cliente{grid-template-columns:1fr;gap:8px}
+  .paper-cliente div{font-size:13px;word-break:break-word}
+  .paper-totais{max-width:100%;margin-left:0}
+  .paper-tabela{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .paper-tabela table{min-width:480px}
+  .paper-assin{grid-template-columns:1fr;gap:20px}
+  .paper-obs{font-size:12px}
+  .campo .entrada{font-size:16px} /* evita zoom iOS */
+}
+@media (max-width: 380px){
+  .paper{padding:12px 10px}
+  .paper-marca h2{font-size:17px}
+  .orc-linha{flex-direction:column;align-items:flex-start;gap:2px}
+  .orc-linha.total{flex-direction:row;align-items:baseline}
+}
+
 </style>
 </head>
 <body>
