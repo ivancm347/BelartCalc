@@ -67,8 +67,8 @@ body.cliente .only-full{display:none!important}
 <meta name="theme-color" content="#0d2740">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BelartCalc">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
@@ -116,7 +116,7 @@ const PRECO={"chapa-1.2x1.8":37.9,"chapa-1.2x2.0":42.11,"chapa-1.2x2.4":50.53,"c
 
 const KEY="belartgesso-calc-v2";
 /* Para enviar ao cliente: troque cliente:false por cliente:true (ou abra o link com #cliente). */
-const CFG={cliente:true,logo:""};
+const CFG={cliente:true,logo:"",whats:"5511976983978"}; /* whats: número com DDI+DDD para o botão da versão Pro, ex.: "5513999999999" */
 const CLIENTE=CFG.cliente||/cliente/.test(location.hash);
 let S={logo:"",svcs:[],seq:1,qOv:{},pOv:{},ref:true,cli:{empresa:"BelartGesso",cliente:"",tel:"",obra:"",mao:"",margem:""}};
 try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(r&&Array.isArray(r.svcs))S=Object.assign(S,r)}catch(e){}
@@ -365,14 +365,19 @@ async function pdfMat(){
   saveFile(b,name,()=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),500);toast("PDF baixado.")});
 }
 
+function promo(){
+  const w=CFG.whats?`<a class="btn w" style="display:inline-block;text-decoration:none" href="https://wa.me/${CFG.whats}?text=${encodeURIComponent("Olá! Quero conhecer a versão Pro da BelartCalc.")}" target="_blank" rel="noopener">Quero a versão Pro</a>`:"";
+  $("#p2").innerHTML=`<div class="card" style="text-align:center;padding:28px 18px"><div style="font-size:2.2rem">🔒</div><h2>Conheça a versão Pro</h2><p class="sub" style="max-width:460px;margin:8px auto 14px">Com ela você já cria um orçamento automático, com o seu nome, logo, telefone e muito mais.</p><ul style="text-align:left;max-width:360px;margin:0 auto 16px;padding-left:20px;font-size:.92rem"><li>Preços dos materiais, mão de obra e margem</li><li>Seu logo, nome e telefone no orçamento</li><li>Envio por WhatsApp, impressão em PDF e planilha</li></ul>${w}</div>`;
+}
+
 /* ---------- Abas ---------- */
 function tab(n,first){
-  if(n===2&&CLIENTE)n=1;
+  
   [1,2,3].forEach(k=>{$("#p"+k).hidden=n!==k;$("#t"+k).classList.toggle("on",n===k)});
-  if(n===2)buildBudget();if(n===3)buildMat();if(!first)window.scrollTo({top:0,behavior:"smooth"});
+  if(n===2){CLIENTE?promo():buildBudget()}if(n===3)buildMat();if(!first)window.scrollTo({top:0,behavior:"smooth"});
 }
 [1,2,3].forEach(k=>$("#t"+k).onclick=()=>tab(k));
-if(CLIENTE){document.body.classList.add("cliente");const t=$("#t2");t.disabled=true;t.textContent="🔒 Orçamento";t.title="Disponível apenas na versão completa";t.setAttribute("aria-disabled","true")}
+if(CLIENTE){document.body.classList.add("cliente");const t=$("#t2");t.textContent="🔒 Orçamento"}
 paintLogo();renderList();tab(1,true);
 </script>
 <script>if("serviceWorker" in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register("sw.js").catch(function(){});</script>
