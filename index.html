@@ -116,7 +116,7 @@ const PRECO={"chapa-1.2x1.8":37.9,"chapa-1.2x2.0":42.11,"chapa-1.2x2.4":50.53,"c
 
 const KEY="belartgesso-calc-v2";
 /* Para enviar ao cliente: troque cliente:false por cliente:true (ou abra o link com #cliente). */
-const CFG={cliente:false,logo:""};
+const CFG={cliente:true,logo:""};
 const CLIENTE=CFG.cliente||/cliente/.test(location.hash);
 let S={logo:"",svcs:[],seq:1,qOv:{},pOv:{},ref:true,cli:{empresa:"BelartGesso",cliente:"",tel:"",obra:"",mao:"",margem:""}};
 try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(r&&Array.isArray(r.svcs))S=Object.assign(S,r)}catch(e){}
