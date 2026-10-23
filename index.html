@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BelartCalc — Calculadora Drywall</title>
+<style>
+:root{--bg:#e8eef5;--sf:#fff;--sf2:#f2f6fb;--ink:#152a3f;--mut:#5d7288;--ln:#d8e2ec;--b6:#1770b3;--nv:#0d2740;--nv2:#13395c;--dg:#b03227;--dgb:#fdecea;--wn:#8a5f0e;--wnb:#fdf2dc;--wa:#1a8f4a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0a1623;--sf:#10233a;--sf2:#152d48;--ink:#e6eef7;--mut:#9db3c8;--ln:#24425f;--b6:#4aa6e6;--nv:#071423;--nv2:#0d2740;--dg:#ff8d80;--dgb:#3a1814;--wn:#f1c36b;--wnb:#33280f}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0a1623;--sf:#10233a;--sf2:#152d48;--ink:#e6eef7;--mut:#9db3c8;--ln:#24425f;--b6:#4aa6e6;--nv:#071423;--nv2:#0d2740;--dg:#ff8d80;--dgb:#3a1814;--wn:#f1c36b;--wnb:#33280f}
+html,body{height:auto}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+.hero{background:linear-gradient(135deg,var(--nv),var(--nv2));color:#fff;padding:26px 16px 52px}
+.wrap{max-width:980px;margin:0 auto;padding:0 14px}
+.hero .wrap{padding:0}
+.chip{display:inline-block;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;background:#ffffff22;border-radius:99px;padding:4px 12px}
+h1{margin:10px 0 4px;font-size:1.7rem;line-height:1.15}
+.hero p{margin:0;opacity:.85;font-size:.9rem;max-width:620px}
+main{margin-top:-30px;padding-bottom:50px}
+.tabs{display:flex;gap:6px;background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:5px;box-shadow:0 4px 14px #0002}
+.tabs button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-weight:700;padding:11px 8px;border-radius:10px;cursor:pointer}
+.tabs button.on{background:var(--b6);color:#fff}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:18px;margin-top:14px}
+h2{margin:0 0 2px;font-size:1.1rem}.sub{margin:0 0 12px;color:var(--mut);font-size:.84rem}
+.svc{background:var(--sf2);border:1px solid var(--ln);border-radius:12px;padding:12px;margin-top:12px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px}
+label{display:block;font-size:.72rem;font-weight:700;color:var(--mut);margin-bottom:3px;text-transform:uppercase;letter-spacing:.03em}
+input,select{width:100%;font:inherit;color:var(--ink);background:var(--sf);border:1px solid var(--ln);border-radius:9px;padding:9px 10px;min-height:42px}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--b6);outline-offset:1px}
+.bad{border-color:var(--dg)}
+.res{margin-top:10px;font-size:.84rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{background:var(--b6);color:#fff;border-radius:99px;padding:2px 10px;font-weight:700}
+.err{color:var(--dg);background:var(--dgb);border-radius:8px;padding:6px 10px}
+.mut{color:var(--mut);font-size:.78rem}
+.btn{font:inherit;font-weight:700;border:1px solid var(--ln);background:var(--sf);color:var(--ink);border-radius:10px;padding:10px 14px;cursor:pointer;min-height:42px}
+.btn.p{background:var(--b6);border-color:var(--b6);color:#fff}.btn.w{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.x{color:var(--dg);padding:8px 12px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.tw{overflow-x:auto;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{padding:8px 6px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:middle}
+th{font-size:.7rem;text-transform:uppercase;color:var(--mut)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tfoot td{font-weight:800;border-bottom:0}
+.q{width:92px;text-align:right;padding:6px 8px;min-height:36px}.q.man{border-color:#e0a21b;background:var(--wnb)}
+.pr{width:96px;text-align:right;padding:6px 8px;min-height:36px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.st{background:var(--sf2);border:1px solid var(--ln);border-radius:12px;padding:12px}
+.st b{display:block;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.tr{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--ln)}
+.tg{display:flex;justify-content:space-between;align-items:center;margin-top:12px;background:var(--nv);color:#fff;border-radius:12px;padding:14px 16px;font-weight:800}
+.tg span:last-child{font-size:1.5rem;font-variant-numeric:tabular-nums}
+details{background:var(--sf2);border:1px solid var(--ln);border-radius:10px;margin-top:8px}
+summary{cursor:pointer;padding:10px 12px;font-weight:700;font-size:.88rem}
+details>div{padding:0 12px 10px;font-size:.84rem}
+.note{font-size:.78rem;color:var(--mut);margin-top:10px}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--nv);color:#fff;padding:10px 18px;border-radius:99px;font-weight:700;z-index:9;box-shadow:0 6px 20px #0005}
+.hd{display:flex;gap:14px;align-items:center}#logo{max-height:64px;max-width:150px;background:#fff;border-radius:10px;padding:6px;object-fit:contain}
+.tabs button:disabled{opacity:.55;cursor:not-allowed}
+.lg{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}.lg img{max-height:52px;max-width:140px;background:#fff;border:1px solid var(--ln);border-radius:8px;padding:4px}
+body.cliente .only-full{display:none!important}
+@media print{body.cliente>*{display:none!important}body.cliente::before{content:"Impressão disponível apenas na versão completa.";display:block;padding:20px;color:#000}}
+[hidden]{display:none!important}
+@media print{.no-print,.tabs,.hero p{display:none!important}.hero{padding:10px;background:none;color:#000}.card{break-inside:avoid;border-color:#999}body{background:#fff;color:#000}}
+</style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d2740">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BelartCalc">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+<div class="hd"><img id="logo" alt="Logo da empresa" hidden><div><span class="chip">Paredes • Forros • Materiais • Orçamento</span>
+<h1>BelartCalc</h1>
+<p>BelartGesso — calcule paredes e forros por ambiente, consolide os materiais e monte o orçamento (ABNT NBR 15758, 14285 e 16497).</p></div></div>
+</div></header>
+<main class="wrap">
+<nav class="tabs no-print"><button id="t1" class="on">Calcular</button><button id="t3">Materiais</button><button id="t2">Orçamento</button></nav>
+<section id="p1">
+<div class="card">
+<h2>Serviços</h2><p class="sub">Adicione paredes e forros (até 12). O cálculo é automático conforme você digita. Valores salvos neste aparelho.</p>
+<div class="bar no-print"><button class="btn p" id="addP">+ Parede</button><button class="btn p" id="addF">+ Forro</button><span class="mut" id="cnt"></span></div>
+<div id="list"></div>
+</div>
+<div class="card"><h2>Bases normativas</h2>
+<details><summary>Parede — NBR 15758-1</summary><div>Montantes a cada 400 ou 600 mm (máx. 600 mm), guias com banda acústica fixadas a cada 60 cm, parafuso TA25 a cada 25–30 cm (20 un/m² por face), fita 1,4 m/m² por face e massa 0,5 kg/m².</div></details>
+<details><summary>Forro estrutural F530 — NBR 15758-2</summary><div>Perfis F530 a cada 600 mm (1 chapa) ou 400 mm (2 chapas), pendurais a cada 1000 mm, 1ª linha a 200 mm da parede, tirante mín. 3,4 mm, carga máx. 0,25 kN/pendural.</div></details>
+<details><summary>Forro aramado — NBR 15758-2 Fig. 2</summary><div>Chapas de 600 mm, junção H, tirante duplo de arame nº 18, nervura 50×600 mm, malha de tirantes 600×500 mm, fator 1,14.</div></details>
+<details><summary>Forro PVC — NBR 14285-1/3</summary><div>Régua 200×6000 mm (1,2 m²), estrutura primária máx. 60 cm e secundária máx. 120 cm, espessura ≥ 8 mm.</div></details>
+<details><summary>Forro mineral Armstrong — NBR 16497</summary><div>Placas 625×625 mm, T principal 24×38 mm a cada 1250 mm, secundários 24×33 mm, 1 tirante a cada 1,5 m², máx. 1250 mm entre tirantes.</div></details>
+</div>
+</section>
+<section id="p2" hidden></section><section id="p3" hidden></section>
+<p class="note" style="text-align:center;margin-top:28px">Estimativas iniciais baseadas nas normas citadas. Não substituem projeto executivo nem conferência em obra.</p>
+</main>
+<div id="toast" class="toast no-print" hidden role="status"></div>
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const num=v=>{if(typeof v!=="string")return NaN;let n=v.trim();if(!n)return NaN;if(n.includes(".")&&n.includes(","))n=n.replace(/\./g,"");n=n.replace(",",".");const t=Number(n);return isFinite(t)?t:NaN};
+const ce=x=>Math.ceil(x-1e-9);
+const f=(x,d=2)=>(isFinite(x)?x:0).toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const R=x=>"R$ "+f(x);
+const q=x=>Number.isInteger(x)?x.toLocaleString("pt-BR"):f(x);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const TIPOS={parede:"Parede drywall",estrutural:"Forro estrutural F530",aramado:"Forro aramado",pvc:"Forro PVC",armstrong:"Forro mineral Armstrong"};
+const NORMA={parede:"NBR 15758-1",estrutural:"NBR 15758-2 Anexo A",aramado:"NBR 15758-2 Fig. 2",pvc:"NBR 14285-1/3",armstrong:"NBR 16497"};
+const ESP={estrutural:["600","1000"]};
+const CH={"1.2x1.8":[1.2,1.8],"1.2x2.0":[1.2,2],"1.2x2.4":[1.2,2.4],"1.2x3.0":[1.2,3]};
+const CHL={"1.2x1.8":"1,20 × 1,80 m","1.2x2.0":"1,20 × 2,00 m","1.2x2.4":"1,20 × 2,40 m","1.2x3.0":"1,20 × 3,00 m"};
+const DATA_REF="22/10/2026";
+const PRECO={"chapa-1.2x1.8":37.9,"chapa-1.2x2.0":42.11,"chapa-1.2x2.4":50.53,"chapa-1.2x3.0":63.17,"chapa-0.6x2.0":21.06,guia:12.9,montante:14.5,f530:13.79,cantoneira:8.69,pendural:1.82,tirante:2.5,uniao:1.2,parafuso:0.0669,fita:0.2867,massa:2.716,banda:1.2,"pvc-regua":11.16,"pvc-arremate":18.9,metalon:22.9,"arm-placa":25,"arm-tprinc":18.9,"arm-tsec":9.9};
+
+const KEY="belartgesso-calc-v2";
+/* Para enviar ao cliente: troque cliente:false por cliente:true (ou abra o link com #cliente). */
+const CFG={cliente:false,logo:""};
+const CLIENTE=CFG.cliente||/cliente/.test(location.hash);
+let S={logo:"",svcs:[],seq:1,qOv:{},pOv:{},ref:true,cli:{empresa:"BelartGesso",cliente:"",tel:"",obra:"",mao:"",margem:""}};
+try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(r&&Array.isArray(r.svcs))S=Object.assign(S,r)}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const toast=t=>{const e=$("#toast");e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2400)};
+
+function novo(tipo){
+  const n=S.svcs.filter(s=>(s.tipo==="parede")===(tipo==="parede")).length+1;
+  const b={id:S.seq++,tipo,nome:(tipo==="parede"?"Parede ":"Forro ")+n,comp:tipo==="parede"?"4":"4",larg:tipo==="parede"?"2,8":"3",perda:tipo==="parede"?"10":"5"};
+  return tipo==="parede"?{...b,qtd:"1",faces:"2",esp:"0.6",chapa:"1.2x1.8",vaos:""}:{...b,ep:"600",epd:"1000"};
+}
+if(!S.svcs.length)S.svcs.push(novo("estrutural"));
+
+function calc(s){
+  const par=s.tipo==="parede",comp=num(s.comp),lg=num(s.larg),pd=num(s.perda),bad=[];
+  if(!(comp>0))bad.push("comp");if(!(lg>0))bad.push("larg");if(!(pd>=0&&pd<=50))bad.push("perda");
+  let qt=1,vaos=0,ep=0,epd=0;
+  if(par){qt=num(s.qtd);if(!Number.isInteger(qt)||qt<1)bad.push("qtd");vaos=s.vaos.trim()?num(s.vaos):0;if(!(vaos>=0))bad.push("vaos")}
+  else if(s.tipo==="estrutural"){ep=num(s.ep);epd=num(s.epd);if(!(ep>=100&&ep<=2000))bad.push("ep");if(!(epd>=100&&epd<=2000))bad.push("epd")}
+  if(bad.length)return{bad,err:"Confira os campos em vermelho: medidas maiores que zero e perda entre 0 e 50%."};
+  const pf=1+pd/100,it=[],add=(id,nome,qtd,un,pk)=>it.push({id,nome,qtd,un,pk});
+  let area;
+  if(par){
+    const bruta=comp*lg*qt;
+    if(vaos>=bruta)return{bad:["vaos"],err:"Os vãos ("+f(vaos)+" m²) são maiores ou iguais à área da parede ("+f(bruta)+" m²)."};
+    area=bruta-vaos;const[cw,chh]=CH[s.chapa],fc=+s.faces,esp=+s.esp,L=comp*qt,m=2*L,n=ce(L/esp)+qt;
+    add("chapa-"+s.chapa,"Chapa drywall "+CHL[s.chapa],ce(area*fc*pf/(cw*chh)),"un.","chapa-"+s.chapa);
+    add("guia","Guia 70 mm (3 m)",ce(m/3),"barras","guia");
+    add("montante","Montante 70 mm (3 m)",lg<=3?n:ce(n*lg/3),"barras","montante");
+    add("parafuso","Parafuso TA25 (20 un/m² por face)",ce(area*fc*20*pf),"un.","parafuso");
+    add("parafuso-mm","Parafuso metal-metal (4 por montante)",n*4,"un.","parafuso");
+    add("fita","Fita para juntas (1,4 m/m² por face)",ce(area*fc*1.4*pf),"m","fita");
+    add("massa","Massa para juntas (0,5 kg/m² por face)",ce(area*fc*0.5*pf*10)/10,"kg","massa");
+    add("banda","Banda acústica sob guias",ce(m*10)/10,"m","banda");
+  }else{
+    area=comp*lg;const p=2*(comp+lg),t=s.tipo;
+    if(t==="estrutural"){
+      const k=ep/1000,a=epd/1000,c=ce(lg/k),g=ce(comp/3),pend=c*Math.max(comp<=0.2?1:1+ce((comp-0.2)/a),ce(comp/a));
+      add("chapa-1.2x1.8","Chapa drywall 1,20 × 1,80 m",ce(area*pf/2.16),"un.","chapa-1.2x1.8");
+      add("f530","Perfil F530 (3 m) — "+c+" linhas",c*g,"barras","f530");
+      add("cantoneira","Cantoneira 25×30 mm (3 m)",ce(p/3),"barras","cantoneira");
+      add("pendural","Pendural regulável + tirante Ø3,4 mm",pend,"un.","pendural");
+      add("uniao","Emenda / união F530",c*Math.max(0,g-1),"un.","uniao");
+      add("parafuso","Parafuso TA25 (20 un/m²)",ce(area*20*pf),"un.","parafuso");
+      add("fita","Fita para juntas (1,4 m/m²)",ce(area*1.4*pf),"m","fita");
+      add("massa","Massa para juntas (0,5 kg/m²)",ce(area*0.5*pf*10)/10,"kg","massa");
+      add("banda","Banda acústica perimetral",ce(p*10)/10,"m","banda");
+    }else if(t==="aramado"){
+      const N=ce(lg/0.6)*ce(comp/0.5);
+      add("chapa-0.6x2.0","Chapa drywall 0,60 × 2,00 m (fator 1,14)",ce(area*1.14*pf/1.2),"un.","chapa-0.6x2.0");
+      add("arame18","Tirante duplo arame nº 18 (malha 600×500)",N,"un.","tirante");
+      add("juncaoH","Junção H para chapa 600 mm",N,"un.","uniao");
+      add("nervura","Nervura 50×600 mm",N,"un.","uniao");
+      add("cantoneira","Cantoneira perimetral (3 m)",ce(p/3),"barras","cantoneira");
+      add("parafuso","Parafuso TA25 (20 un/m²)",ce(area*20*1.14*pf),"un.","parafuso");
+      add("fita","Fita para juntas (1,4 m/m²)",ce(area*1.4*pf),"m","fita");
+      add("massa","Massa para juntas (0,5 kg/m²)",ce(area*0.5*pf*10)/10,"kg","massa");
+    }else if(t==="pvc"){
+      add("pvc-regua","Régua PVC 200 × 6000 mm (1,2 m²)",ce(area*pf/1.2),"un.","pvc-regua");
+      add("pvc-arremate","Arremate U / cantoneira PVC (6 m)",ce(p/6),"barras","pvc-arremate");
+      add("metalon-prim","Metalon 20×20 primário (máx. 60 cm)",ce(ce(lg/0.6)*comp/6),"barras","metalon");
+      add("metalon-sec","Metalon 20×20 secundário (máx. 120 cm)",ce(ce(comp/1.2)*lg/6),"barras","metalon");
+      add("parafuso","Parafuso 4,2×13 / rebite (8 un/m²)",ce(area*8*pf),"un.","parafuso");
+    }else{
+      add("arm-placa","Placa mineral 625 × 625 mm",ce(area*pf/0.390625),"un.","arm-placa");
+      add("arm-tprinc","Perfil T principal 3600 mm",ce(lg/1.25)*ce(comp/3.6),"barras","arm-tprinc");
+      add("arm-t1250","Perfil T secundário 1250 mm",ce(comp/0.625)*ce(lg/1.25),"barras","arm-tsec");
+      add("arm-t625","Perfil T secundário 625 mm",ce(ce(lg/0.625)*ce(comp/1.25)/2),"barras","arm-tsec");
+      add("arm-cantoneira","Cantoneira perimetral (3 m)",ce(p/3),"barras","cantoneira");
+      add("arm-tirante","Tirante + regulador (1 a cada 1,5 m²)",Math.max(ce(area/1.5),ce(lg/1.25)*ce(comp/1.25)),"un.","tirante");
+    }
+  }
+  return{area,it,bad:[]};
+}
+
+/* ---------- Serviços ---------- */
+function fld(s,k,lab,extra=""){return `<div><label>${lab}</label><input data-f="${k}" inputmode="decimal" value="${esc(s[k])}" ${extra}></div>`}
+function sel(s,k,lab,opts){return `<div><label>${lab}</label><select data-f="${k}">${opts.map(([v,l])=>`<option value="${v}"${String(s[k])===v?" selected":""}>${l}</option>`).join("")}</select></div>`}
+function svcHTML(s){
+  const par=s.tipo==="parede";
+  return `<div class="svc" data-id="${s.id}"><div class="g">
+  <div><label>Nome</label><input data-f="nome" maxlength="40" value="${esc(s.nome)}"></div>
+  ${sel(s,"tipo","Tipo",Object.entries(TIPOS))}
+  ${fld(s,"comp","Comprimento (m)")}${fld(s,"larg",par?"Altura (m)":"Largura (m)")}
+  ${par?fld(s,"qtd","Nº de paredes")+sel(s,"faces","Faces com chapa",[["1","1 face"],["2","2 faces"]])+sel(s,"esp","Montantes a cada",[["0.4","40 cm"],["0.6","60 cm"]])+sel(s,"chapa","Chapa",Object.entries(CHL))+fld(s,"vaos","Vãos a descontar (m²)"):""}
+  ${s.tipo==="estrutural"?fld(s,"ep","Perfis a cada (mm)")+fld(s,"epd","Pendurais a cada (mm)"):""}
+  ${fld(s,"perda","Perda (%)")}
+  </div><div class="res"></div>
+  <div class="bar no-print"><button class="btn x" data-del="${s.id}">Excluir</button><button class="btn" data-dup="${s.id}">Duplicar</button></div></div>`;
+}
+function refresh(el){
+  const s=S.svcs.find(x=>x.id==el.dataset.id),r=calc(s);
+  el.querySelectorAll("[data-f]").forEach(i=>i.classList.toggle("bad",r.bad.includes(i.dataset.f)));
+  el.querySelector(".res").innerHTML=r.err?`<span class="err" role="alert">${esc(r.err)}</span>`:`<span class="badge">${f(r.area)} m²</span><span class="mut">${NORMA[s.tipo]} • ${r.it.length} itens</span>`;
+}
+function renderList(){
+  $("#list").innerHTML=S.svcs.map(svcHTML).join("");
+  document.querySelectorAll(".svc").forEach(refresh);
+  $("#cnt").textContent=S.svcs.length+" de 12";
+  $("#addP").disabled=$("#addF").disabled=S.svcs.length>=12;
+}
+$("#addP").onclick=()=>{S.svcs.push(novo("parede"));save();renderList()};
+$("#addF").onclick=()=>{S.svcs.push(novo("estrutural"));save();renderList()};
+$("#list").addEventListener("input",e=>{
+  const el=e.target.closest(".svc"),k=e.target.dataset.f;if(!el||!k)return;
+  const s=S.svcs.find(x=>x.id==el.dataset.id);s[k]=e.target.value;save();
+  if(k==="tipo"){
+    if(s.tipo==="parede"){for(const[x,v]of Object.entries({qtd:"1",faces:"2",esp:"0.6",chapa:"1.2x1.8",vaos:""}))if(s[x]===undefined)s[x]=v}
+    else if(s.tipo==="estrutural"){if(!s.ep)s.ep="600";if(!s.epd)s.epd="1000"}
+    save();renderList()}
+  else if(k!=="nome")refresh(el);
+});
+$("#list").addEventListener("click",e=>{
+  const d=e.target.dataset;
+  if(d.del){if(S.svcs.length>1||confirm("Excluir o último serviço?")){S.svcs=S.svcs.filter(x=>x.id!=d.del);save();renderList()}}
+  if(d.dup&&S.svcs.length<12){const o=S.svcs.find(x=>x.id==d.dup);S.svcs.splice(S.svcs.indexOf(o)+1,0,{...o,id:S.seq++,nome:o.nome+" (cópia)"});save();renderList()}
+});
+
+/* ---------- Orçamento ---------- */
+let B=null;
+function consolidar(){
+  const calcs=S.svcs.map(s=>({s,r:calc(s)})).filter(x=>!x.r.err),m=new Map();
+  calcs.forEach(({r})=>r.it.forEach(i=>{const o=m.get(i.id);if(o)o.norma+=i.qtd;else m.set(i.id,{...i,norma:i.qtd})}));
+  return{calcs,list:[...m.values()],area:calcs.reduce((a,x)=>a+x.r.area,0)};
+}
+const qEf=i=>S.qOv[i.id]!==undefined?S.qOv[i.id]:i.norma;
+const pEf=i=>{const o=S.pOv[i.pk];if(o!==undefined)return o;return S.ref?PRECO[i.pk]||0:0};
+function totals(){
+  const mat=B.list.reduce((a,i)=>a+Math.max(0,num(String(qEf(i)))||0)*pEf(i),0);
+  const mao=B.area*(num(S.cli.mao)||0),mg=(mat+mao)*(num(S.cli.margem)||0)/100;
+  return{mat,mao,mg,tot:mat+mao+mg};
+}
+function paintTotals(){
+  const t=totals();
+  B.list.forEach(i=>{const e=$("#rt-"+i.id);if(e)e.textContent=R((Number(qEf(i))||0)*pEf(i))});
+  ["sMat","sMat2","fMat"].forEach(k=>$("#"+k).textContent=R(t.mat));["sTot","sTot2"].forEach(k=>$("#"+k).textContent=R(t.tot));
+  $("#sMao").textContent=R(t.mao);$("#sMg").textContent=R(t.mg);
+}
+function buildBudget(){
+  B=consolidar();const p=$("#p2");
+  if(!B.calcs.length){p.innerHTML=`<div class="card" style="text-align:center"><h2>Nenhum serviço válido</h2><p class="sub">Volte à aba Calcular e confira as medidas.</p><button class="btn p" onclick="tab(1)">Ir para Calcular</button></div>`;return}
+  const c=S.cli,inp=(k,l,ph="",m="")=>`<div><label>${l}</label><input data-c="${k}" ${m} value="${esc(c[k])}" placeholder="${ph}"></div>`;
+  p.innerHTML=`
+  <div class="card"><h2>Resumo</h2><div class="stats">
+   <div class="st"><span class="mut">Serviços</span><b>${B.calcs.length}</b></div>
+   <div class="st"><span class="mut">Área total</span><b>${f(B.area)} m²</b></div>
+   <div class="st"><span class="mut">Materiais</span><b id="sMat"></b></div>
+   <div class="st"><span class="mut">Total geral</span><b id="sTot"></b></div></div>
+   ${B.calcs.map(({s,r})=>`<details><summary>${esc(s.nome)} — ${TIPOS[s.tipo]} — ${f(r.area)} m²</summary><div>${r.it.map(i=>`<div class="tr"><span>${q(i.qtd)} ${i.un} — ${esc(i.nome)}</span><b>${R(i.qtd*pEf(i))}</b></div>`).join("")}</div></details>`).join("")}
+  </div>
+  <div class="card"><h2>Materiais consolidados</h2><p class="sub">Soma de todos os serviços. Edite quantidade e preço — quantidade alterada fica destacada em laranja. Preços de referência de ${DATA_REF}.</p>
+   <div class="bar no-print"><label style="display:flex;gap:8px;align-items:center;margin:0;text-transform:none;font-size:.88rem;color:var(--ink)"><input type="checkbox" id="ref" style="width:auto;min-height:0" ${S.ref?"checked":""}> Usar preços de referência</label><button class="btn" id="rst">Restaurar padrão</button></div>
+   <div class="tw"><table><thead><tr><th>Material</th><th class="n">Qtd</th><th>Un.</th><th class="n">Preço (R$)</th><th class="n">Total</th></tr></thead><tbody>
+   ${B.list.map(i=>{const man=S.qOv[i.id]!==undefined;return `<tr><td>${esc(i.nome)}<div class="mut">Norma: ${q(i.norma)} ${i.un}</div></td>
+   <td class="n"><input class="q${man?" man":""}" data-q="${i.id}" inputmode="decimal" value="${man?esc(String(S.qOv[i.id])):q(i.norma)}" aria-label="Quantidade de ${esc(i.nome)}"></td><td>${i.un}</td>
+   <td class="n"><input class="pr" data-p="${i.pk}" inputmode="decimal" value="${S.pOv[i.pk]!==undefined?esc(String(S.pOv[i.pk]).replace(".",",")):f(pEf(i),4).replace(/0+$/,"").replace(/,$/,",00")}" aria-label="Preço de ${esc(i.nome)}"></td>
+   <td class="n"><b id="rt-${i.id}"></b></td></tr>`}).join("")}
+   </tbody><tfoot><tr><td colspan="4">Subtotal de materiais</td><td class="n" id="fMat"></td></tr></tfoot></table></div></div>
+  <div class="card"><h2>Dados, mão de obra e margem</h2><div class="g" style="margin-top:10px">
+   ${inp("empresa","Empresa / profissional")}${inp("cliente","Cliente","Nome do cliente")}${inp("tel","Telefone","(00) 00000-0000",'inputmode="tel"')}${inp("obra","Endereço da obra")}
+   ${inp("mao","Mão de obra (R$/m²)","0,00",'inputmode="decimal"')}${inp("margem","Margem (%)","0",'inputmode="decimal"')}</div>
+   <div class="lg no-print"><label style="margin:0">Logo da empresa</label><input type="file" id="lgf" accept="image/*" style="width:auto;max-width:230px"><img id="lgp" alt="" ${S.logo?`src="${S.logo}"`:"hidden"}><button class="btn" id="lgx" ${S.logo?"":"hidden"}>Remover logo</button></div><p class="note no-print">O logo aparece no topo e na impressão/PDF. Fica salvo neste aparelho.</p>
+   <div style="margin-top:12px"><div class="tr"><span>Subtotal de materiais</span><b id="sMat2"></b></div><div class="tr"><span>Mão de obra (${f(B.area)} m²)</span><b id="sMao"></b></div><div class="tr"><span>Margem</span><b id="sMg"></b></div>
+   <div class="tg"><span>Total geral</span><span id="sTot2"></span></div></div>
+   <div class="bar no-print"><button class="btn w" data-a="wa">Copiar para WhatsApp</button><button class="btn" data-a="txt">Copiar orçamento</button><button class="btn" data-a="csv">Baixar CSV</button><button class="btn" data-a="print">Imprimir / PDF</button></div></div>`;
+  paintTotals();
+}
+const pt=()=>paintTotals();
+$("#p2").addEventListener("input",e=>{
+  const d=e.target.dataset,v=e.target.value;
+  if(d.q!==undefined){if(v.trim()===""){delete S.qOv[d.q];e.target.classList.remove("man")}else{const n=num(v);if(isFinite(n)&&n>=0){S.qOv[d.q]=n;e.target.classList.add("man")}}}
+  else if(d.p!==undefined){if(v.trim()==="")delete S.pOv[d.p];else{const n=num(v);if(isFinite(n)&&n>=0)S.pOv[d.p]=n}}
+  else if(d.c!==undefined)S.cli[d.c]=v;
+  else return;
+  save();pt();
+});
+$("#p2").addEventListener("change",e=>{
+  if(e.target.id==="lgf"){setLogo(e.target.files[0])}
+  else if(e.target.id==="ref"){S.ref=e.target.checked;save();buildBudget()}
+  else if(e.target.dataset.q!==undefined||e.target.dataset.p!==undefined)buildBudget();
+});
+$("#p2").addEventListener("click",e=>{
+  if(e.target.id==="lgx"){S.logo="";save();paintLogo();buildBudget();toast("Logo removido.")}
+  if(e.target.id==="rst"){S.qOv={};S.pOv={};S.ref=true;save();buildBudget();toast("Quantidades e preços restaurados.")}
+  const a=e.target.dataset.a;if(!a)return;
+  if(a==="wa")copy(txtWA(),"Resumo copiado! Cole no WhatsApp.");
+  if(a==="txt")copy(txtFull(),"Orçamento copiado.");
+  if(a==="csv")csv();
+  if(a==="print")window.print();
+});
+function linhas(){return B.list.map(i=>({i,qtd:Number(qEf(i))||0,pr:pEf(i)}))}
+function txtWA(){const t=totals(),c=S.cli;return[`*ORÇAMENTO DRYWALL*`,`${c.empresa}${c.cliente?" • Cliente: "+c.cliente:""}`,c.obra?"Obra: "+c.obra:"","",`Serviços: ${B.calcs.map(x=>x.s.nome).join(", ")}`,`Área total: ${f(B.area)} m²`,"","*Materiais*",...linhas().map(l=>`• ${q(l.qtd)} ${l.i.un} — ${l.i.nome} × ${R(l.pr)} = *${R(l.qtd*l.pr)}*`),"",`Subtotal materiais: ${R(t.mat)}`,`Mão de obra: ${R(t.mao)}`,`Margem: ${R(t.mg)}`,`*TOTAL GERAL: ${R(t.tot)}*`].filter((x,k,a)=>x!==""||a[k-1]!=="").join("\n")}
+function txtFull(){const t=totals(),c=S.cli,o=["ORÇAMENTO — DRYWALL",`Empresa: ${c.empresa}`,c.cliente&&`Cliente: ${c.cliente}`,c.tel&&`Telefone: ${c.tel}`,c.obra&&`Obra: ${c.obra}`,`Data: ${new Date().toLocaleDateString("pt-BR")}`,`Serviços: ${B.calcs.length} • Área total: ${f(B.area)} m²`,""].filter(x=>x!==""&&x!==false&&x!==undefined);
+  B.calcs.forEach(({s,r})=>{o.push("",`${s.nome.toUpperCase()} (${TIPOS[s.tipo]}) — ${f(r.area)} m² — ${NORMA[s.tipo]}`)});
+  o.push("","MATERIAIS CONSOLIDADOS",...linhas().map(l=>`- ${l.i.nome}: ${q(l.qtd)} ${l.i.un} × ${R(l.pr)} = ${R(l.qtd*l.pr)}`),"",`Subtotal materiais: ${R(t.mat)}`,`Mão de obra (${f(B.area)} m² × ${R(num(c.mao)||0)}): ${R(t.mao)}`,`Margem (${f(num(c.margem)||0)}%): ${R(t.mg)}`,`TOTAL GERAL: ${R(t.tot)}`);return o.join("\n")}
+async function copy(txt,ok){let done=false;try{await navigator.clipboard.writeText(txt);done=true}catch(e){try{const a=document.createElement("textarea");a.value=txt;a.style.cssText="position:fixed;opacity:0";document.body.appendChild(a);a.select();done=document.execCommand("copy");a.remove()}catch(e2){}}toast(done?ok:"Não foi possível copiar.")}
+function csv(){const c=S.cli,e=x=>'"'+String(x).replaceAll('"','""')+'"',t=totals();
+  const rows=[["Empresa",c.empresa],["Cliente",c.cliente],["Obra",c.obra],["Área total (m²)",f(B.area)],[],["Material","Quantidade","Unidade","Preço unitário (R$)","Total (R$)"],...linhas().map(l=>[l.i.nome,q(l.qtd),l.i.un,f(l.pr,4),f(l.qtd*l.pr)]),[],["Subtotal materiais","","","",f(t.mat)],["Mão de obra","","","",f(t.mao)],["Margem","","","",f(t.mg)],["TOTAL GERAL","","","",f(t.tot)]];
+  const b=new Blob(["\uFEFF"+rows.map(r=>r.map(e).join(";")).join("\r\n")],{type:"text/csv;charset=utf-8;"}),a=document.createElement("a");
+  saveFile(b,"orcamento-belartgesso.csv",()=>{a.href=URL.createObjectURL(b);a.download="orcamento-belartgesso.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),500);toast("CSV baixado.")})}
+async function saveFile(b,name,fallback){
+  try{const dl=window.claude&&window.claude.use?await window.claude.use("downloads"):null;
+    if(dl){await dl.save({filename:name,data:b});toast("Arquivo salvo.");return}}catch(e){if(e&&e.code==="declined")return}
+  fallback()}
+
+/* ---------- Logo e Materiais ---------- */
+function paintLogo(){const l=$("#logo"),s=S.logo||CFG.logo;l.hidden=!s;if(s)l.src=s}
+function setLogo(file){
+  if(!file)return;const rd=new FileReader();
+  rd.onload=()=>{const im=new Image();im.onload=()=>{
+    const w=im.width||300,h=im.height||100,k=Math.min(1,320/w,160/h),c=document.createElement("canvas");
+    c.width=Math.max(1,Math.round(w*k));c.height=Math.max(1,Math.round(h*k));c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+    S.logo=c.toDataURL("image/png");save();paintLogo();buildBudget();toast("Logo inserido.")};
+    im.onerror=()=>toast("Não foi possível ler essa imagem.");im.src=rd.result};
+  rd.readAsDataURL(file);
+}
+function buildMat(){
+  const m=consolidar(),p=$("#p3");
+  if(!m.calcs.length){p.innerHTML=`<div class="card" style="text-align:center"><h2>Nenhum serviço válido</h2><p class="sub">Volte à aba Calcular e confira as medidas.</p><button class="btn p" onclick="tab(1)">Ir para Calcular</button></div>`;return}
+  const L=m.list.map(i=>({i,qtd:Number(S.qOv[i.id]!==undefined?S.qOv[i.id]:i.norma)||0}));
+  p.innerHTML=`<div class="card"><h2>Lista de materiais</h2><p class="sub">${m.calcs.length} ${m.calcs.length>1?"serviços":"serviço"} • ${f(m.area)} m² no total</p>
+  <div class="tw"><table><thead><tr><th>Material</th><th class="n">Qtd</th><th>Un.</th></tr></thead><tbody>${L.map(l=>`<tr><td>${esc(l.i.nome)}</td><td class="n"><b>${q(l.qtd)}</b></td><td>${l.i.un}</td></tr>`).join("")}</tbody></table></div>
+  <div class="bar no-print"><button class="btn p" id="pdfMat">Baixar lista (PDF)</button><button class="btn w" id="cpMat">Copiar lista</button><button class="btn only-full" onclick="window.print()">Imprimir / PDF</button></div></div>
+  <div class="card"><h2>Por serviço</h2>${m.calcs.map(({s,r})=>`<details><summary>${esc(s.nome)} — ${TIPOS[s.tipo]} — ${f(r.area)} m²</summary><div>${r.it.map(i=>`<div class="tr"><span>${esc(i.nome)}</span><b>${q(i.qtd)} ${i.un}</b></div>`).join("")}<p class="note">${NORMA[s.tipo]}</p></div></details>`).join("")}</div>`;
+  $("#pdfMat").onclick=pdfMat;$("#cpMat").onclick=()=>copy("LISTA DE MATERIAIS\nÁrea total: "+f(m.area)+" m²\n\n"+L.map(l=>"- "+l.i.nome+": "+q(l.qtd)+" "+l.i.un).join("\n"),"Lista copiada.");
+}
+
+async function pdfMat(){
+  const m=consolidar();if(!m.calcs.length)return;
+  const J=window.jspdf&&window.jspdf.jsPDF;if(!J){toast("O gerador de PDF não carregou. Use “Copiar lista”.");return}
+  const L=m.list.map(i=>({n:i.nome,q:q(Number(S.qOv[i.id]!==undefined?S.qOv[i.id]:i.norma)||0)+" "+i.un}));
+  const d=new J({unit:"mm",format:"a4"}),W=210,H=297,M=15,lg=S.logo||CFG.logo;let y=M;
+  if(lg){try{const im=await new Promise((ok,no)=>{const x=new Image();x.onload=()=>ok(x);x.onerror=no;x.src=lg});const k=Math.min(40/im.width,18/im.height),w=im.width*k,h=im.height*k;d.addImage(lg,"PNG",M,y,w,h);y+=h+4}catch(e){}}
+  d.setFont("helvetica","bold");d.setFontSize(16);d.text(S.cli.empresa||"Relação de materiais",M,y+5);y+=11;
+  d.setFontSize(12);d.text("Relação de materiais",M,y);y+=6;
+  d.setFont("helvetica","normal");d.setFontSize(9);
+  const info=d.splitTextToSize("Serviços: "+m.calcs.map(x=>x.s.nome).join(", ")+"  •  Área total: "+f(m.area)+" m²  •  "+new Date().toLocaleDateString("pt-BR"),W-2*M).slice(0,3);
+  d.text(info,M,y);y+=info.length*4+3;
+  const rh=Math.min(7,(H-M-12-y)/(L.length+1)),fs=Math.max(6,Math.min(11,rh*1.55));
+  d.setFontSize(fs);d.setFont("helvetica","bold");d.setFillColor(23,112,179);d.rect(M,y,W-2*M,rh,"F");d.setTextColor(255,255,255);
+  d.text("Material",M+2,y+rh*0.7);d.text("Quantidade",W-M-2,y+rh*0.7,{align:"right"});y+=rh;
+  d.setFont("helvetica","normal");d.setTextColor(20,40,60);
+  L.forEach((l,k)=>{if(k%2===0){d.setFillColor(238,243,249);d.rect(M,y,W-2*M,rh,"F")}d.text(l.n,M+2,y+rh*0.7);d.text(l.q,W-M-2,y+rh*0.7,{align:"right"});y+=rh});
+  d.setFontSize(7);d.setTextColor(100,115,130);d.text("Estimativa baseada nas normas ABNT NBR 15758, 14285 e 16497. Confira as quantidades em obra.",M,H-M+2);
+  const b=d.output("blob"),name="lista-materiais.pdf";
+  saveFile(b,name,()=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),500);toast("PDF baixado.")});
+}
+
+/* ---------- Abas ---------- */
+function tab(n,first){
+  if(n===2&&CLIENTE)n=1;
+  [1,2,3].forEach(k=>{$("#p"+k).hidden=n!==k;$("#t"+k).classList.toggle("on",n===k)});
+  if(n===2)buildBudget();if(n===3)buildMat();if(!first)window.scrollTo({top:0,behavior:"smooth"});
+}
+[1,2,3].forEach(k=>$("#t"+k).onclick=()=>tab(k));
+if(CLIENTE){document.body.classList.add("cliente");const t=$("#t2");t.disabled=true;t.textContent="🔒 Orçamento";t.title="Disponível apenas na versão completa";t.setAttribute("aria-disabled","true")}
+paintLogo();renderList();tab(1,true);
+</script>
+<script>if("serviceWorker" in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register("sw.js").catch(function(){});</script>
+</body>
+</html>
