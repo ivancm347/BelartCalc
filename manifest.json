@@ -1,7 +1,7 @@
 {
   "name": "BelartCalc",
   "short_name": "BelartCalc",
-  "description": "Calculadora de materiais e orçamento de drywall — BelartGesso",
+  "description": "Calculadora de materiais e orçamento de drywall",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
