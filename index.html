@@ -10,9 +10,13 @@
 
 /* --- Melhorias de responsividade para celular --- */
 @media (max-width: 600px){
-  .ficha-grade{grid-template-columns:1fr 1fr;gap:10px}
-  .seg{flex-wrap:wrap}
-  .seg-btn{flex:1 1 45%;min-width:70px;font-size:12px;padding:8px 4px;white-space:normal;line-height:1.2}
+  .ficha-grade{grid-template-columns:1fr;gap:12px}
+  .ficha-params .ficha-grade{grid-template-columns:1fr;gap:12px}
+  .seg{flex-wrap:wrap;gap:4px}
+  .ficha-params{padding:12px}
+  .campo{grid-column:1/-1 !important}
+
+  .seg-btn{flex:1 1 48%;min-width:80px;font-size:12px;padding:10px 6px;white-space:normal;line-height:1.2;min-height:38px}
   .ficha-topo{flex-wrap:wrap;gap:8px}
   .ficha-nome{flex:1 1 100%;min-width:0}
   .secao-cab{flex-direction:column;align-items:stretch !important}
@@ -28,6 +32,16 @@
   .ficha-grade{grid-template-columns:1fr;gap:10px}
   .seg-btn{flex:1 1 100%}
 }
+
+/* Fix para CHAPA / TAMANHO / VÃOS não sobrepor em mobile - vãos corrigido */
+@media (max-width: 600px){
+  .ficha-params{overflow:visible}
+  .ficha-params .campo{width:100%;min-width:0}
+  .ficha-params .entrada{font-size:16px;width:100%;min-width:0;box-sizing:border-box}
+  .seg{width:100%;min-width:0}
+  .ficha-corpo{padding:12px}
+}
+
 /* --- Orçamento - responsividade completa --- */
 @media (max-width: 960px){
   .orc-layout{grid-template-columns:1fr !important}
