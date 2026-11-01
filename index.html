@@ -191,8 +191,14 @@ function buildPdf(draw){
     var words=String(s).split(/\s+/), l="", yy=y, i, t;
     for(i=0;i<words.length;i++){
       t=l?l+" "+words[i]:words[i];
-      if(estW(t,size)>maxW && l){ text(l,x,yy,size,bold); yy-=lh; ensure(lh); l=words[i]; }
-      else l=t;
+      if(estW(t,size)>maxW && l){
+        text(l,x,yy,size,bold);
+        yy-=lh;
+        var pageCount=pages.length;
+        ensure(lh);
+        if(pages.length>pageCount) yy=cur.y;
+        l=words[i];
+      } else l=t;
     }
     if(l){ text(l,x,yy,size,bold); yy-=lh; }
     return yy;
