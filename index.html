@@ -346,7 +346,7 @@ function pdfMateriais(){
     for(i=0;i<d.items.length;i++){
       it=d.items[i];
       if(it.grupo!==g){ g=it.grupo; api.ensure(30); api.nl(6); api.text(g, api.ML, api.getY(), 12, true); api.nl(16);
-        api.line(api.ML, api.W-api.MR, api.getY()+6, 0.75, 0.8); }
+        api.line(api.ML, api.getY()+6, api.W-api.MR, api.getY()+6, 0.75, 0.8); }
       api.ensure(16);
       var y=api.getY();
       var nome=it.nome+(it.un?" ("+it.un+")":"");
@@ -359,7 +359,7 @@ function pdfMateriais(){
       api.nl(15);
     }
     api.nl(8);
-    api.line(api.ML, api.W-api.MR, api.getY()+8, 0.5, 1.0); api.nl(16);
+    api.line(api.ML, api.getY()+8, api.W-api.MR, api.getY()+8, 0.5, 1.0); api.nl(16);
     var tg="Total de materiais: "+d.totalGeral, tw2=api.estW(tg,12);
     api.text(tg, api.W-api.MR-tw2, api.getY(), 12, true);
   });
@@ -387,7 +387,7 @@ function pdfOrcamento(){
       api.text(d.docTipo||"OR\u00c7AMENTO", api.ML, api.getY(), 12, true); api.nl(15);
       if(d.docNum){ y=api.para(d.docNum, api.ML, api.getY(), 10, false, api.W-api.ML-api.MR, 13); api.setY(y-4); }
       if(proj){ api.ensure(16); api.text("Projeto/Obra: "+proj, api.ML, api.getY(), 11, true); api.nl(16); }
-      api.nl(6); api.line(api.ML, api.W-api.MR, api.getY()+8, 0.5, 1.0); api.nl(16);
+      api.nl(6); api.line(api.ML, api.getY()+8, api.W-api.MR, api.getY()+8, 0.5, 1.0); api.nl(16);
       var ck=Object.keys(d.cliente);
       if(ck.length){ api.text("Cliente", api.ML, api.getY(), 12, true); api.nl(16);
         ck.forEach(function(k){ api.ensure(14); api.text(k+": "+d.cliente[k], api.ML, api.getY(), 10, false); api.nl(14); });
@@ -399,7 +399,7 @@ function pdfOrcamento(){
         api.text(titulo, api.ML, api.getY(), 12, true); api.nl(17);
         api.ensure(15);
         for(ci=0;ci<head.length;ci++) api.text(head[ci], api.ML+widths[ci], api.getY(), 9, true);
-        api.nl(13); api.line(api.ML, api.W-api.MR, api.getY()+5, 0.75, 0.8); api.nl(4);
+        api.nl(13); api.line(api.ML, api.getY()+5, api.W-api.MR, api.getY()+5, 0.75, 0.8); api.nl(4);
         for(ri=0;ri<rows.length;ri++){
           var r=rows[ri]; api.ensure(14);
           var yy=api.getY(), last=(ri===rows.length-1);
