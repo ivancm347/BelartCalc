@@ -1,30 +1,21 @@
 {
-  "name": "BelartCalc",
+  "id": "./",
+  "name": "BelartCalc | BelartGesso",
   "short_name": "BelartCalc",
-  "description": "Calculadora de materiais e orçamento de drywall",
-  "start_url": "./index.html",
+  "description": "Calculadora profissional de materiais e orçamentos para drywall da BelartGesso.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0d2740",
-  "theme_color": "#0d2740",
+  "background_color": "#eef2f9",
+  "theme_color": "#102b46",
   "lang": "pt-BR",
   "icons": [
     {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }
