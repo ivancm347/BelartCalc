@@ -1,9 +1,56 @@
-const C="belartcalc-v3";
-const A=["./","index.html","manifest.json","icon-192.png","icon-512.png"];
-self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(A)).then(()=>self.skipWaiting()))});
-self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
-self.addEventListener("fetch",e=>{
-  const r=e.request;if(r.method!=="GET")return;
-  if(r.mode==="navigate"){e.respondWith(fetch(r).then(res=>{const cp=res.clone();caches.open(C).then(c=>c.put(r,cp));return res}).catch(()=>caches.match(r).then(m=>m||caches.match("index.html"))));return}
-  e.respondWith(caches.match(r).then(m=>m||fetch(r).then(res=>{if(res&&(res.ok||res.type==="opaque")){const cp=res.clone();caches.open(C).then(c=>c.put(r,cp))}return res})));
+"use strict";
+const CACHE_NAME = "belartcalc-v4";
+const APP_SHELL = ["./", "./index.html", "./manifest.json", "./icon.svg"];
+
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(APP_SHELL))
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener("fetch", event => {
+  const request = event.request;
+  if (request.method !== "GET") return;
+
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
+
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+          if (response && response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(async () => (await caches.match(request)) || (await caches.match("./index.html"))
+      )
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(request).then(cached => {
+      if (cached) return cached;
+      return fetch(request).then(response => {
+        if (response && response.ok) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+        }
+        return response;
+      });
+    })
+  );
 });
