@@ -78,6 +78,72 @@
   .orc-linha.total{flex-direction:row;align-items:baseline}
 }
 
+
+/* ===== Ajustes de clareza visual e usabilidade ===== */
+:root{--raio:16px}
+.hero-inner{max-width:1120px;padding:22px 24px 0}
+.hero-marca h1{font-size:clamp(25px,3vw,32px)}
+.hero-sub{max-width:680px;font-size:14px}
+.hero-faixa{margin-top:16px}
+.faixa-item{padding:10px 16px 12px}
+.faixa-num{font-size:20px}
+.tabbar{backdrop-filter:blur(12px)}
+.tabbar-inner{max-width:1120px;padding:9px 24px;gap:10px}
+.aba-btn{min-height:44px;border:1px solid var(--line-soft);background:var(--surface-2);border-radius:11px;transition:background .16s,border-color .16s,color .16s}
+.aba-btn.ativa{background:var(--brand-tint);border-color:var(--brand)}
+.conteudo{max-width:1120px;padding:26px 24px 72px}
+.secao-cab{margin:8px 0 18px;align-items:center}
+.secao-titulo{font-size:22px;letter-spacing:-.025em}
+.secao-desc{font-size:14px;line-height:1.55}
+.ficha{border-radius:16px;box-shadow:0 5px 18px rgba(16,29,56,.07);margin-bottom:18px}
+.ficha-topo{padding:15px 18px;border-bottom-width:3px}
+.ficha-corpo{padding:18px}
+.ficha-grade{gap:14px}
+.ficha-params{padding:16px;border-style:solid}
+.campo{gap:7px}
+.campo-rotulo{font-size:11px;letter-spacing:.07em}
+.entrada,.ficha-tipo,select.entrada,textarea.entrada{min-height:44px;border-radius:11px}
+.btn{min-height:44px;border-radius:11px}
+.btn-primario{box-shadow:0 5px 12px rgba(29,78,216,.16)}
+.mat-linha{border-radius:13px;box-shadow:0 2px 8px rgba(16,29,56,.035)}
+.mat-rodape{border-radius:16px}
+.norma{border-radius:13px}
+.app-footer{max-width:1120px;margin:0 auto;padding:0 24px 24px}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 38%,transparent);outline-offset:2px}
+@media(max-width:640px){
+ .hero-inner{padding:18px 16px 0}
+ .hero-logo{width:44px;height:44px;border-radius:12px}
+ .hero-marca{gap:11px}
+ .hero-marca h1{font-size:25px}
+ .hero-tag{font-size:10px;letter-spacing:.1em}
+ .hero-sub{margin-top:10px;font-size:13px}
+ .hero-faixa{margin-top:12px}
+ .faixa-item{padding:9px 8px 11px}
+ .faixa-num{font-size:18px}
+ .faixa-rot{font-size:9px;letter-spacing:.07em}
+ .tabbar-inner{padding:8px 12px;gap:6px;overflow-x:auto;scrollbar-width:none}
+ .tabbar-inner::-webkit-scrollbar{display:none}
+ .aba-btn{flex:1 0 auto;min-width:0;padding:10px 9px;font-size:12px;gap:6px;white-space:nowrap}
+ .aba-btn svg{width:16px;height:16px}
+ .conteudo{padding:20px 14px 54px}
+ .secao-cab{margin:4px 0 14px;align-items:flex-start}
+ .secao-titulo{font-size:20px}
+ .secao-desc{font-size:13px}
+ .ficha{margin-bottom:14px}
+ .ficha-topo{padding:12px}
+ .ficha-corpo{padding:13px}
+ .ficha-grade{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+ .ficha-params{padding:12px;margin-top:12px}
+ .ficha-rodape{padding:11px 13px}
+ .btn-adicionar-duplo{grid-template-columns:1fr}
+ .btn-adicionar{padding:15px}
+ .mat-linha{padding:11px 12px}
+ .app-footer{padding:0 14px 20px;font-size:11px}
+}
+@media(min-width:900px){
+ .ficha-grade{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+}
+
 </style>
 </head>
 <body>
