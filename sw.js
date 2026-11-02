@@ -1,5 +1,5 @@
 "use strict";
-const CACHE_NAME = "belartcalc-v4";
+const CACHE_NAME = "belartcalc-v5";
 const APP_SHELL = ["./", "./index.html", "./manifest.json", "./icon.svg"];
 
 self.addEventListener("install", event => {
