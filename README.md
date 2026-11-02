@@ -36,6 +36,8 @@ A configuração padrão da parede utiliza chapa de **1,20 × 1,80 m**, equivale
 
 - Os perfis e barras identificados como 3 m são apresentados em unidades de barras, com arredondamento para cima.
 - A perda configurada é aplicada às quantidades de materiais indicadas pela regra de cada serviço.
+- A quantidade de montantes e linhas de perfil considera posições inteiras da modulação, com a última posição ajustada para cobrir o vão.
+- No forro F530, a contagem de pendurais considera a quantidade de linhas F530 e o espaçamento informado ao longo de cada linha. O cálculo considera o primeiro apoio a 20 cm da extremidade e os seguintes conforme o intervalo configurado.
 - A modulação de montantes, perfis e pendurais depende dos espaçamentos informados.
 - O cálculo não substitui paginação de chapas, plano de corte ou projeto executivo.
 
