@@ -72,3 +72,7 @@ O repositório está em revisão técnica contínua. As fórmulas devem ser conf
 ---
 
 **BelartGesso — Detalhes que transformam seu espaço.**
+
+## Interface BelartCalc 2.0
+
+A interface utiliza uma identidade visual premium em azul-marinho, tons claros e detalhes dourados discretos. Em computadores, a navegação principal fica em uma barra lateral fixa; em telas pequenas, ela se adapta para uma barra inferior. A reformulação é visual e mantém as três áreas funcionais existentes: cálculo, lista de materiais e orçamento. Os cálculos, os dados em estado local, a composição de materiais e os recursos de PDF permanecem na aplicação original.
